@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BloggingPlatform.Model.Requests;
 using BloggingPlatform.WebAPI.Database;
 using BloggingPlatform.WebAPI.Services;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +21,9 @@ namespace BloggingPlatform.WebAPI.Controllers
             _blogPostService = blogPostService;
         }
         [HttpGet]
-        public ActionResult<List<Model.BlogPostCount>> Get()
+        public ActionResult<List<Model.BlogPostCount>> Get([FromQuery] BlogPostsSearchRequest_byTag request)
         {
-            return _blogPostService.Get();
+            return _blogPostService.Get(request);
         }
     }
 }
