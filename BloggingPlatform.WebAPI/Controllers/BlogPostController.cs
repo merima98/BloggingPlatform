@@ -20,7 +20,7 @@ namespace BloggingPlatform.WebAPI.Controllers
             _blogPostService = blogPostService;
         }
         [HttpGet]
-        public ActionResult<List<Model.BlogPost>> Get()
+        public ActionResult<List<Model.BlogPostCount>> Get()
         {
             return _blogPostService.Get();
         }

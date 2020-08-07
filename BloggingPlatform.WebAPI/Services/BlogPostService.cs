@@ -19,10 +19,11 @@ namespace BloggingPlatform.WebAPI.Services
             _mapper = mapper;
         }
 
-        public List<Model.BlogPost> Get()
+        public List<Model.BlogPostCount> Get()
         {
+            List<Model.BlogPostCount> PostCount = new List<Model.BlogPostCount>();
             List<Model.BlogPost> Posts = new List<Model.BlogPost>();
-
+          
             var posts= _context.BlogPost.ToList();
             var blog_tags = _context.BlogPostTags.ToList();
             var tags = _context.Tags.ToList();
@@ -49,10 +50,14 @@ namespace BloggingPlatform.WebAPI.Services
                         }
                     }
                 }
-              
                 Posts.Add(blogPost);
             }
-            return Posts;
+            PostCount.Add(new Model.BlogPostCount()
+            {
+                BlogPost = Posts,
+                PostsCount = Posts.Count()
+            });
+            return PostCount;
         }
     }
 }

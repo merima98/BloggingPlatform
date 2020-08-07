@@ -11,7 +11,7 @@ namespace BloggingPlatform.WebAPI.Mappers
     {
         public Mapper()
         {
-            CreateMap<Database.BlogPost, Model.BlogPost>();
+            CreateMap<Database.BlogPost, Model.BlogPostCount>();
         }
     }
 }

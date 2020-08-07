@@ -8,6 +8,6 @@ namespace BloggingPlatform.WebAPI.Services
 {
     public interface IBlogPostService
     {
-        List<Model.BlogPost> Get();
+        List<Model.BlogPostCount> Get();
     }
 }
