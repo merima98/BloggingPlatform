@@ -1,0 +1,15 @@
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.csprojAssemblyReference.cache
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.AssemblyInfoInputs.cache
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.AssemblyInfo.cs
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.csproj.CoreCompileInputs.cache
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.RazorAssemblyInfo.cache
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.RazorAssemblyInfo.cs
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.deps.json
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.runtimeconfig.json
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.runtimeconfig.dev.json
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\bin\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.dll
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.RazorTargetAssemblyInfo.cache
+C:\Users\HOME\Desktop\BloggingPlatform\BloggingPlatform.WebAPI\BloggingPlatform.WebAPI\obj\Debug\netcoreapp2.2\BloggingPlatform.WebAPI.genruntimeconfig.cache
