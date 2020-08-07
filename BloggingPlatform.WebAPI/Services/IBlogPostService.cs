@@ -9,6 +9,6 @@ namespace BloggingPlatform.WebAPI.Services
 {
     public interface IBlogPostService
     {
-        List<Model.BlogPostCount> Get(BlogPostsSearchRequest_byTag searchRequest);
+        Model.BlogPostCount Get(BlogPostsSearchRequest_byTag searchRequest);
     }
 }

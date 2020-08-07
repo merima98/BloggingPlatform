@@ -21,7 +21,7 @@ namespace BloggingPlatform.WebAPI.Controllers
             _blogPostService = blogPostService;
         }
         [HttpGet]
-        public ActionResult<List<Model.BlogPostCount>> Get([FromQuery] BlogPostsSearchRequest_byTag request)
+        public ActionResult< Model.BlogPostCount> Get([FromQuery] BlogPostsSearchRequest_byTag request)
         {
             return _blogPostService.Get(request);
         }

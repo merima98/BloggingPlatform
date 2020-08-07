@@ -18,7 +18,7 @@ namespace BloggingPlatform.WebAPI.Services
             _context = context;
         }
 
-        public List<Model.BlogPostCount> Get(BlogPostsSearchRequest_byTag searchRequest)
+        public  Model.BlogPostCount Get(BlogPostsSearchRequest_byTag searchRequest)
         {
             var query = _context.Tags.AsQueryable();
             if (!string.IsNullOrWhiteSpace(searchRequest?.TagName))
@@ -26,19 +26,27 @@ namespace BloggingPlatform.WebAPI.Services
                 query = query.Where(x => x.Name == searchRequest.TagName);
             }
             var entities = query.ToList(); //filtered tag list
-            var blogPostTagsQuery = _context.BlogPostTags.AsQueryable();
+            
+              var blogPostTagsQuery = _context.BlogPostTags.AsQueryable();
+            if(entities.Count>0)
             foreach (var x in entities)
             {
                 blogPostTagsQuery = blogPostTagsQuery.Where(y => y.TagId == x.Id);
             }
-            var blogPostTags = blogPostTagsQuery.ToList();
+            List<BlogPostTags> blogPostTags = new List<BlogPostTags>();
+            if (entities.Count > 0)
+                blogPostTags = blogPostTagsQuery.ToList();
 
-            List<Model.BlogPostCount> PostCount = new List<Model.BlogPostCount>();
             List<Model.BlogPost> Posts = new List<Model.BlogPost>();
             var blog_tags = _context.BlogPostTags.ToList();
             var tags = _context.Tags.ToList();
 
-            if (blogPostTags.Count>0)
+            Model.BlogPostCount PostCount = new Model.BlogPostCount();
+
+            if (blogPostTags.Count==0)
+                return PostCount;
+              
+            else if (blogPostTags.Count>0)
             {
                 var posts = _context.BlogPost.AsQueryable();
                 foreach (var y in blogPostTags)
@@ -98,11 +106,8 @@ namespace BloggingPlatform.WebAPI.Services
                 }
             }
             Posts.OrderBy(x => x.UpdatedAt); //most recent blog posts 
-            PostCount.Add(new Model.BlogPostCount()
-            {
-                BlogPost = Posts,
-                PostsCount = Posts.Count()
-            });
+            PostCount.BlogPost = Posts;
+            PostCount.PostsCount = Posts.Count();
             return PostCount;
         }
     }
