@@ -12,12 +12,10 @@ namespace BloggingPlatform.WebAPI.Services
     public class BlogPostService : IBlogPostService
     {
         private readonly BloggingPlatformContext _context;
-        private readonly IMapper _mapper;
 
-        public BlogPostService(BloggingPlatformContext context, IMapper mapper )
+        public BlogPostService(BloggingPlatformContext context  )
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public List<Model.BlogPostCount> Get(BlogPostsSearchRequest_byTag searchRequest)
