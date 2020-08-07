@@ -26,8 +26,8 @@ namespace BloggingPlatform.WebAPI.Services
                 query = query.Where(x => x.Name == searchRequest.TagName);
             }
             var entities = query.ToList(); //filtered tag list
-            
-              var blogPostTagsQuery = _context.BlogPostTags.AsQueryable();
+
+            var blogPostTagsQuery = _context.BlogPostTags.AsQueryable();
             if(entities.Count>0)
             foreach (var x in entities)
             {
@@ -109,6 +109,31 @@ namespace BloggingPlatform.WebAPI.Services
             PostCount.BlogPost = Posts;
             PostCount.PostsCount = Posts.Count();
             return PostCount;
+        }
+
+        public Model.BlogPost GetBySlug(string slug)
+        {
+            var entity = _context.BlogPost.Find(slug);
+            var blogPostsTags = _context.BlogPostTags.Include(x=>x.Tag).ToList();
+            Model.BlogPost returnValue = new Model.BlogPost();
+            if (entity!=null)
+            {
+                returnValue.Body = entity.Body;
+                returnValue.CreatedAt = entity.CreatedAt;
+                returnValue.Description = entity.Description;
+                returnValue.Slug = entity.Slug;
+                returnValue.Title = entity.Title;
+                returnValue.UpdatedAt = entity.UpdatedAt;
+
+                foreach (var tags in blogPostsTags)
+                {
+                    if (tags.Slug == entity.Slug)
+                    {
+                        returnValue.Tags.Add(tags.Tag.Name);
+                    }
+                }
+            }
+            return returnValue;
         }
     }
 }

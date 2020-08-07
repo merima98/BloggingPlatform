@@ -25,5 +25,13 @@ namespace BloggingPlatform.WebAPI.Controllers
         {
             return _blogPostService.Get(request);
         }
+
+        [HttpGet("{slug}")]
+        public ActionResult<Model.BlogPost> GetBySlug( string slug)
+        {
+            return _blogPostService.GetBySlug(slug);
+        }
+
+         
     }
 }
