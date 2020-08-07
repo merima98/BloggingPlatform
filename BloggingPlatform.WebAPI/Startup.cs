@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BloggingPlatform.WebAPI.Database;
+using BloggingPlatform.WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +32,9 @@ namespace BloggingPlatform.WebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);   //to do after....
 
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -35,6 +42,12 @@ namespace BloggingPlatform.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
+
+
+            var connection = @"Server=.;Database=BloggingPlatform;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<BloggingPlatformContext>(options => options.UseSqlServer(connection));
+
+            services.AddScoped<IBlogPostService, BlogPostService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
