@@ -43,19 +43,22 @@ namespace BloggingPlatform.WebAPI.Services
 
             Model.BlogPostCount PostCount = new Model.BlogPostCount();
 
-            if (blogPostTags.Count==0)
-                return PostCount;
-              
-            else if (blogPostTags.Count>0)
+            if (blogPostTags.Count>0)
             {
-                var posts = _context.BlogPost.AsQueryable();
-                foreach (var y in blogPostTags)
+                var posts = _context.BlogPost.ToList();
+                List<BlogPost> temp = new List<BlogPost>();
+                foreach (var dd in blogPostTags)
                 {
-                    posts = posts.Where(x => x.Slug == y.Slug);
+                    foreach (var ss in posts)
+                    {
+
+                        if (ss.Slug == dd.Slug)
+                        {
+                            temp.Add(ss);
+                        }
+                    }
                 }
-                 
-                var postsList = posts.ToList();
-                foreach (var x in postsList)
+                foreach (var x in temp)
                 {
                     Model.BlogPost blogPost = new Model.BlogPost();
                     blogPost.Slug = x.Slug;
@@ -77,7 +80,7 @@ namespace BloggingPlatform.WebAPI.Services
                     Posts.Add(blogPost);
                 }
             }
-            else
+            if (searchRequest.TagName==null)
             {
                 var posts = _context.BlogPost.ToList();
                 foreach (var x in posts)
@@ -135,5 +138,26 @@ namespace BloggingPlatform.WebAPI.Services
             }
             return returnValue;
         }
+
+        public bool Delete(string slug)
+        {
+            var blogPostTag = _context.BlogPostTags.Where(x => x.Slug == slug).ToList();
+
+            foreach (var post in blogPostTag)
+            {
+                _context.BlogPostTags.Remove(post);
+                _context.SaveChanges();
+            }
+            var entity = _context.BlogPost.Find(slug);
+            if (entity != null)
+            {
+                _context.BlogPost.Remove(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+       
     }
 }

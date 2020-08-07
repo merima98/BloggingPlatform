@@ -11,5 +11,6 @@ namespace BloggingPlatform.WebAPI.Services
     {
         Model.BlogPostCount Get(BlogPostsSearchRequest_byTag searchRequest);
         Model.BlogPost GetBySlug(string slug);
+        bool Delete(string slug);
     }
 }

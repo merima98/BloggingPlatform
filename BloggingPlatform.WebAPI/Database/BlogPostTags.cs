@@ -5,6 +5,7 @@ namespace BloggingPlatform.WebAPI.Database
 {
     public partial class BlogPostTags
     {
+        public int Id { get; set; }
         public string Slug { get; set; }
         public int? TagId { get; set; }
 

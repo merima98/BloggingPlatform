@@ -42,24 +42,21 @@ namespace BloggingPlatform.WebAPI.Database
                 entity.Property(e => e.Title).HasMaxLength(200);
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
-
             });
 
             modelBuilder.Entity<BlogPostTags>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("BlogPost_Tags");
 
                 entity.Property(e => e.Slug).HasMaxLength(200);
 
                 entity.HasOne(d => d.SlugNavigation)
-                    .WithMany()
+                    .WithMany(p => p.BlogPostTags)
                     .HasForeignKey(d => d.Slug)
                     .HasConstraintName("fk_Slug");
 
                 entity.HasOne(d => d.Tag)
-                    .WithMany()
+                    .WithMany(p => p.BlogPostTags)
                     .HasForeignKey(d => d.TagId)
                     .HasConstraintName("fk_TagId");
             });
