@@ -12,10 +12,13 @@ namespace BloggingPlatform.WebAPI.Services
     public class BlogPostService : IBlogPostService
     {
         private readonly BloggingPlatformContext _context;
+        private readonly IMapper _mapper;
 
-        public BlogPostService(BloggingPlatformContext context  )
+        public BlogPostService(BloggingPlatformContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
 
         public  Model.BlogPostCount Get(BlogPostsSearchRequest_byTag searchRequest)
@@ -158,6 +161,38 @@ namespace BloggingPlatform.WebAPI.Services
             return false;
         }
 
-       
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        public Model.BlogPost Insert(BlogPostsCreateRequest request)
+        {
+            var entity = _mapper.Map<BlogPost>(request);
+            entity.Slug = RandomString(8);
+            entity.CreatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now;
+            _context.BlogPost.Add(entity);
+            _context.SaveChanges();
+            foreach (var t in request.Tags)
+            {
+                Tags temp = new Tags()
+                {
+                    Name = t
+                };
+                _context.Tags.Add(temp);
+                _context.SaveChanges();
+                _context.BlogPostTags.Add(new BlogPostTags()
+                {
+                    Slug = entity.Slug,
+                    TagId = temp.Id
+                });
+                _context.SaveChanges();
+            }
+            return _mapper.Map<Model.BlogPost>(entity);
+        }
+
     }
 }

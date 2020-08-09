@@ -38,6 +38,10 @@ namespace BloggingPlatform.WebAPI.Controllers
         {
             return _blogPostService.Delete(slug);
         }
-
+        [HttpPost]
+        public Model.BlogPost Insert(BlogPostsCreateRequest request)
+        {
+            return _blogPostService.Insert(request);
+        }
     }
 }
