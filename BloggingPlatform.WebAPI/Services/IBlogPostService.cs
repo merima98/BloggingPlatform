@@ -13,7 +13,7 @@ namespace BloggingPlatform.WebAPI.Services
         Model.BlogPost GetBySlug(string slug);
         bool Delete(string slug);
         Model.BlogPost Insert(BlogPostsCreateRequest request);
-        Model.BlogPost Update(string slug, BlogPostsUpdateRequest request);  
+        Model.BlogPost Update(string slug, BlogPostsUpdateRequest request);
 
     }
 }

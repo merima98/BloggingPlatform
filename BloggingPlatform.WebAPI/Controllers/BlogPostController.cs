@@ -21,13 +21,13 @@ namespace BloggingPlatform.WebAPI.Controllers
             _blogPostService = blogPostService;
         }
         [HttpGet]
-        public ActionResult< Model.BlogPostCount> Get([FromQuery] BlogPostsSearchRequest_byTag request)
+        public ActionResult<Model.BlogPostCount> Get([FromQuery] BlogPostsSearchRequest_byTag request)
         {
             return _blogPostService.Get(request);
         }
 
         [HttpGet("{slug}")]
-        public ActionResult<Model.BlogPost> GetBySlug( string slug)
+        public ActionResult<Model.BlogPost> GetBySlug(string slug)
         {
             return _blogPostService.GetBySlug(slug);
         }

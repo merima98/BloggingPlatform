@@ -32,12 +32,9 @@ namespace BloggingPlatform.WebAPI.Database
         {
             modelBuilder.Entity<BlogPost>(entity =>
             {
-                entity.HasKey(e => e.Slug)
-                    .HasName("pk_Slug_BlogPosts");
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Slug).HasMaxLength(200);
-
-                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Title).HasMaxLength(200);
 
@@ -48,12 +45,10 @@ namespace BloggingPlatform.WebAPI.Database
             {
                 entity.ToTable("BlogPost_Tags");
 
-                entity.Property(e => e.Slug).HasMaxLength(200);
-
-                entity.HasOne(d => d.SlugNavigation)
+                entity.HasOne(d => d.Slug)
                     .WithMany(p => p.BlogPostTags)
-                    .HasForeignKey(d => d.Slug)
-                    .HasConstraintName("fk_Slug");
+                    .HasForeignKey(d => d.SlugId)
+                    .HasConstraintName("fk_SlugId");
 
                 entity.HasOne(d => d.Tag)
                     .WithMany(p => p.BlogPostTags)

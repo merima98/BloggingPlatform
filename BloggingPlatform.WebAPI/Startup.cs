@@ -43,9 +43,15 @@ namespace BloggingPlatform.WebAPI
             });
 
 
-
+            //1
             var connection = @"Server=.;Database=BloggingPlatform;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<BloggingPlatformContext>(options => options.UseSqlServer(connection));
+
+            //var connection = Configuration.GetConnectionString("BloggingPlatform");
+            //services.AddDbContext<BloggingPlatformContext>(options => options.UseSqlServer(connection));
+
+
+
 
             services.AddScoped<IBlogPostService, BlogPostService>();
             services.AddScoped<ITagService, TagService>();
@@ -79,7 +85,7 @@ namespace BloggingPlatform.WebAPI
             {
                 endpoints.MapControllers();
             });
-             
+
         }
     }
 }

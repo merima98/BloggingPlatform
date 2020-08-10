@@ -13,8 +13,8 @@ namespace BloggingPlatform.WebAPI.Mappers
         {
             CreateMap<Database.BlogPost, Model.BlogPostCount>();
             CreateMap<Database.BlogPost, Model.BlogPost>();
-            CreateMap<BlogPostsCreateRequest, Database.BlogPost>();  
-            CreateMap<BlogPostsUpdateRequest, Database.BlogPost>();  
+            CreateMap<BlogPostsCreateRequest, Database.BlogPost>();
+            CreateMap<BlogPostsUpdateRequest, Database.BlogPost>();
             CreateMap<Database.Tags, Model.Tags>();
         }
     }
