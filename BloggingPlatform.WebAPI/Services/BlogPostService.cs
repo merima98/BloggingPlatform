@@ -21,7 +21,6 @@ namespace BloggingPlatform.WebAPI.Services
         {
             _context = context;
             _mapper = mapper;
-
         }
         public Model.BlogPostCount Get(BlogPostsSearchRequest_byTag searchRequest)
         {
@@ -56,7 +55,6 @@ namespace BloggingPlatform.WebAPI.Services
                 {
                     foreach (var p in posts)
                     {
-
                         if (p.Slug == blogTags.Slug.Slug)
                         {
                             temp.Add(p);

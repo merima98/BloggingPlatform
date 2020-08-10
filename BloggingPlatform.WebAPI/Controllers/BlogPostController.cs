@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BloggingPlatform.Model.Requests;
-//using BloggingPlatform.WebAPI.Database;
+using BloggingPlatform.WebAPI.Database;
 using BloggingPlatform.WebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

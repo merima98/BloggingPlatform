@@ -30,8 +30,7 @@ namespace BloggingPlatform.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);   //to do after....
-
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);  
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -41,17 +40,9 @@ namespace BloggingPlatform.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
-
-
-            //1
-            //var connection = @"Server=.;Database=BloggingPlatform;Trusted_Connection=True;ConnectRetryCount=0";
-            //services.AddDbContext<BloggingPlatformContext>(options => options.UseSqlServer(connection));
-
+             
             var connection = Configuration.GetConnectionString("BloggingPlatform");
             services.AddDbContext<BloggingPlatformContext>(options => options.UseSqlServer(connection));
-
-
-
 
             services.AddScoped<IBlogPostService, BlogPostService>();
             services.AddScoped<ITagService, TagService>();
