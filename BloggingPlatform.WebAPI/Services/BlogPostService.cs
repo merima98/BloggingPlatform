@@ -161,7 +161,6 @@ namespace BloggingPlatform.WebAPI.Services
             }
             return false;
         }
-        private static Random random = new Random();
         public Model.BlogPost Insert(BlogPostsCreateRequest request)
         {
             var entity = _mapper.Map<Database.BlogPost>(request);
@@ -178,8 +177,6 @@ namespace BloggingPlatform.WebAPI.Services
             }
             brojac++;
             entity.Slug = Slugify(entity.Title + " " + brojac.ToString());
-
-
             entity.CreatedAt = DateTime.Now;
             entity.UpdatedAt = DateTime.Now;
             _context.BlogPost.Add(entity);
@@ -217,16 +214,12 @@ namespace BloggingPlatform.WebAPI.Services
         {
             // Remove all accents and make the string lower case.  
             string output = RemoveAccents(phrase).ToLower();
-
             // Remove all special characters from the string.  
             output = Regex.Replace(output, @"[^A-Za-z0-9\s-]", "");
-
             // Remove all additional spaces in favour of just one.  
             output = Regex.Replace(output, @"\s+", " ").Trim();
-
             // Replace all spaces with the hyphen.  
             output = Regex.Replace(output, @"\s", "-");
-
             // Return the slug.  
             return output;
         }
