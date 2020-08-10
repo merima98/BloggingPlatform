@@ -4,7 +4,10 @@ using BloggingPlatform.WebAPI.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BloggingPlatform.WebAPI.Services
@@ -20,7 +23,6 @@ namespace BloggingPlatform.WebAPI.Services
             _mapper = mapper;
 
         }
-
         public Model.BlogPostCount Get(BlogPostsSearchRequest_byTag searchRequest)
         {
             var query = _context.Tags.AsQueryable();
@@ -116,7 +118,6 @@ namespace BloggingPlatform.WebAPI.Services
             PostCount.PostsCount = Posts.Count();
             return PostCount;
         }
-
         public Model.BlogPost GetBySlug(string slug)
         {
             var entity = _context.BlogPost.Where(x => x.Slug == slug).FirstOrDefault();
@@ -141,7 +142,6 @@ namespace BloggingPlatform.WebAPI.Services
             }
             return returnValue;
         }
-
         public bool Delete(string slug)
         {
             var blogPostTag = _context.BlogPostTags.Include(x=>x.Slug).Where(x => x.Slug.Slug == slug).ToList();
@@ -161,18 +161,25 @@ namespace BloggingPlatform.WebAPI.Services
             }
             return false;
         }
-
         private static Random random = new Random();
-        public static string RandomString(int length)
-        {
-            const string chars = "abcdefghijklmnopqrstuvwxyz";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
         public Model.BlogPost Insert(BlogPostsCreateRequest request)
         {
             var entity = _mapper.Map<Database.BlogPost>(request);
-            entity.Slug = RandomString(8);
+
+            List<BlogPost> postss = _context.BlogPost.ToList();
+            int brojac = 0;
+
+            foreach (var item in postss)
+            {
+                if (item.Title == entity.Title)
+                {
+                    brojac++;
+                }
+            }
+            brojac++;
+            entity.Slug = Slugify(entity.Title + " " + brojac.ToString());
+
+
             entity.CreatedAt = DateTime.Now;
             entity.UpdatedAt = DateTime.Now;
             _context.BlogPost.Add(entity);
@@ -194,59 +201,67 @@ namespace BloggingPlatform.WebAPI.Services
             }
             return _mapper.Map<Model.BlogPost>(entity);
         }
+        public   string RemoveAccents(  string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return text;
 
+            text = text.Normalize(NormalizationForm.FormD);
+            char[] chars = text
+                .Where(c => CharUnicodeInfo.GetUnicodeCategory(c)
+                != UnicodeCategory.NonSpacingMark).ToArray();
+
+            return new string(chars).Normalize(NormalizationForm.FormC);
+        }
+        public   string Slugify(string phrase)
+        {
+            // Remove all accents and make the string lower case.  
+            string output = RemoveAccents(phrase).ToLower();
+
+            // Remove all special characters from the string.  
+            output = Regex.Replace(output, @"[^A-Za-z0-9\s-]", "");
+
+            // Remove all additional spaces in favour of just one.  
+            output = Regex.Replace(output, @"\s+", " ").Trim();
+
+            // Replace all spaces with the hyphen.  
+            output = Regex.Replace(output, @"\s", "-");
+
+            // Return the slug.  
+            return output;
+        }
         public Model.BlogPost Update(string slug, BlogPostsUpdateRequest request)
         {
             var entity = _context.BlogPost.Where(x=>x.Slug==slug).FirstOrDefault();
-            //List<BlogPostTags> blogPostsTagy_bySlug = _context.BlogPostTags.Include(x=>x.Slug).Where(x => x.Slug.Slug == slug).ToList();
-            //List<BlogPostTags> allBlogPostTags = _context.BlogPostTags.Include(x=>x.Slug).ToList();
-            //foreach (var item in allBlogPostTags)
-            //{
-            //    if (item.Slug.Slug == slug)
-            //    {
-            //        _context.BlogPostTags.Remove(item);
-            //        _context.SaveChanges();
-            //    }
-            //}
-
-            //string tempSlug = null;
             if (entity.Title == request.Title)
             {
                 _mapper.Map(request, entity);
                 entity.UpdatedAt = DateTime.Now;
                 _context.SaveChanges();
-                //tempSlug = entity.Slug;
             }
-            //BlogPost blogPost = new BlogPost();
+            int brojac = 0;
+            List<BlogPost> postss = _context.BlogPost.ToList();
             if (entity.Title != request.Title)
             {
-                //_context.BlogPost.Remove(entity);
-                //_context.SaveChanges();
-
+                
                 entity.Body = request.Body;
                 entity.CreatedAt = entity.CreatedAt;
                 entity.UpdatedAt = DateTime.Now;
                 entity.Description = request.Description;
-                entity.Slug = RandomString(8);
+                
                 entity.Title = request.Title;
 
-                //_context.BlogPost.Add(blogPost);
-                //_context.SaveChanges();
-                //tempSlug = blogPost.Slug;
+                foreach (var item in postss)
+                {
+                    if (item.Title==entity.Title)
+                    {
+                        brojac++;
+                    }
+                }
+                entity.Slug = Slugify(entity.Title+" "+brojac.ToString());
             }
             _context.SaveChanges();
-            //foreach (var blogTag in blogPostsTagy_bySlug)
-            //{
-            //    _context.BlogPostTags.Add(new BlogPostTags()
-            //    {
-            //        SlugId = entity.Id,
-            //        TagId = blogTag.TagId
-            //    });
-            //    _context.SaveChanges();
-            //}
-            _context.SaveChanges();
-            //if (entity.Title != request.Title)
-            //    return _mapper.Map<Model.BlogPost>(blogPost);
+             
             return _mapper.Map<Model.BlogPost>(entity);
         }
     }
