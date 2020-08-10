@@ -49,7 +49,7 @@ namespace BloggingPlatform.WebAPI.Services
             if (blogPostTags.Count>0)
             {
                 var posts = _context.BlogPost.ToList();
-                List<BlogPost> temp = new List<BlogPost>();
+                List<Database.BlogPost> temp = new List<Database.BlogPost>();
                 foreach (var dd in blogPostTags)
                 {
                     foreach (var ss in posts)
@@ -170,7 +170,7 @@ namespace BloggingPlatform.WebAPI.Services
         }
         public Model.BlogPost Insert(BlogPostsCreateRequest request)
         {
-            var entity = _mapper.Map<BlogPost>(request);
+            var entity = _mapper.Map<Database.BlogPost>(request);
             entity.Slug = RandomString(8);
             entity.CreatedAt = DateTime.Now;
             entity.UpdatedAt = DateTime.Now;
@@ -178,7 +178,7 @@ namespace BloggingPlatform.WebAPI.Services
             _context.SaveChanges();
             foreach (var t in request.Tags)
             {
-                Tags temp = new Tags()
+                Database.Tags temp = new Database.Tags()
                 {
                     Name = t
                 };
@@ -194,5 +194,58 @@ namespace BloggingPlatform.WebAPI.Services
             return _mapper.Map<Model.BlogPost>(entity);
         }
 
+        public Model.BlogPost Update(string slug, BlogPostsUpdateRequest request)
+        {
+            var entity = _context.BlogPost.Find(slug);
+            List<BlogPostTags> blogPostsTagy_bySlug = _context.BlogPostTags.Where(x => x.Slug == slug).ToList();
+            List<BlogPostTags> allBlogPostTags = _context.BlogPostTags.ToList();
+            foreach (var item in allBlogPostTags)
+            {
+                if (item.Slug == slug)
+                {
+                    _context.BlogPostTags.Remove(item);
+                    _context.SaveChanges();
+                }
+            }
+            string tempSlug = null;
+            if (entity.Title==request.Title)
+            {
+                _mapper.Map(request, entity);
+                entity.UpdatedAt = DateTime.Now;
+                _context.SaveChanges();
+                tempSlug = entity.Slug;
+            }
+            BlogPost blogPost = new BlogPost();
+            if (entity.Title != request.Title)
+            {
+                _context.BlogPost.Remove(entity);
+                _context.SaveChanges();
+
+                blogPost.Body = request.Body;
+                blogPost.CreatedAt = entity.CreatedAt;
+                blogPost.UpdatedAt = DateTime.Now;
+                blogPost.Description = request.Description;
+                blogPost.Slug = RandomString(8);
+                blogPost.Title = request.Title;
+                
+                _context.BlogPost.Add(blogPost);
+                _context.SaveChanges();
+                tempSlug = blogPost.Slug;
+            }
+            _context.SaveChanges();
+            foreach (var blogTag in blogPostsTagy_bySlug)
+            {
+                _context.BlogPostTags.Add(new BlogPostTags()
+                {
+                    Slug = tempSlug,
+                    TagId = blogTag.TagId
+                });
+                _context.SaveChanges();
+            }
+            _context.SaveChanges();
+            if (entity.Title != request.Title)
+                return _mapper.Map<Model.BlogPost>(blogPost);
+            return _mapper.Map<Model.BlogPost>(entity);
+        }
     }
 }

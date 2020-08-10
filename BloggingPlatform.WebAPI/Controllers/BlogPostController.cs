@@ -43,5 +43,11 @@ namespace BloggingPlatform.WebAPI.Controllers
         {
             return _blogPostService.Insert(request);
         }
+
+        [HttpPut("{slug}")]
+        public Model.BlogPost Update(string slug, BlogPostsUpdateRequest request)
+        {
+            return _blogPostService.Update(slug, request);
+        }
     }
 }
