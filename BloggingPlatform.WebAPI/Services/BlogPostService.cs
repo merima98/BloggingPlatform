@@ -163,10 +163,18 @@ namespace BloggingPlatform.WebAPI.Services
         {
             var entity = _mapper.Map<Database.BlogPost>(request);
 
-            List<BlogPost> postss = _context.BlogPost.ToList();
+            Model.BlogPost returnValue = new Model.BlogPost()
+            {
+                Body = entity.Body,
+                CreatedAt = DateTime.Now,
+                Description = entity.Description,
+                Title = entity.Title,
+                UpdatedAt = DateTime.Now,
+                Tags = request.Tags
+            };
+            List<BlogPost> allPosts = _context.BlogPost.ToList();
             int brojac = 0;
-
-            foreach (var item in postss)
+            foreach (var item in allPosts)
             {
                 if (item.Title == entity.Title)
                 {
@@ -179,6 +187,7 @@ namespace BloggingPlatform.WebAPI.Services
             entity.UpdatedAt = DateTime.Now;
             _context.BlogPost.Add(entity);
             _context.SaveChanges();
+            returnValue.Slug = entity.Slug;
             foreach (var t in request.Tags)
             {
                 Database.Tags temp = new Database.Tags()
@@ -194,7 +203,7 @@ namespace BloggingPlatform.WebAPI.Services
                 });
                 _context.SaveChanges();
             }
-            return _mapper.Map<Model.BlogPost>(entity);
+            return returnValue;
         }
         public   string RemoveAccents(  string text)
         {
