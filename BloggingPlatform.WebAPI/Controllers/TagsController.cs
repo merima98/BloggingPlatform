@@ -10,11 +10,11 @@ namespace BloggingPlatform.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TagsController : ControllerBase
+    public class tagsController : ControllerBase
     {
         private readonly ITagService _tagService;
 
-        public TagsController(ITagService tagService)
+        public tagsController(ITagService tagService)
         {
             _tagService = tagService;
         }

@@ -12,11 +12,11 @@ namespace BloggingPlatform.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogPostController : ControllerBase
+    public class postsController : ControllerBase
     {
         private readonly IBlogPostService _blogPostService;
 
-        public BlogPostController(IBlogPostService blogPostService)
+        public postsController(IBlogPostService blogPostService)
         {
             _blogPostService = blogPostService;
         }
