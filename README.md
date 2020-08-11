@@ -1,6 +1,6 @@
 # Blogging Platform
 
-Backend solution for a blogging platform, which uses a custom REST API for all requests (GET, PUT, POST, DELETE). 
+Backend solution for a blogging platform, which uses a custom REST API for requests: GET, POST, PUT, DELETE. 
 
 General functionality
 - CRUD Blog posts
